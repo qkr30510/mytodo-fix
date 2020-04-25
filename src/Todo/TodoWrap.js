@@ -1,7 +1,7 @@
 import React from "react";
-import './Message.scss';
+import './TodoWrap.scss';
 
-const Message = ({ children}) => {
+const TodoWrap = ({ children}) => {
     return (
         <div className="TodoTemplate">
             <div className="app-title">일정 관리</div>
@@ -11,4 +11,4 @@ const Message = ({ children}) => {
 };
 
 
-export default Message;
+export default TodoWrap;
