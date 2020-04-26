@@ -51,7 +51,7 @@ const Todo = () => {
   //const {TodoLists} = todos;
 
   
-  //console.log("fixtodos",fixtodos)
+  
 
   // const [onModify, setOnModify] = useState('');
   const [initText, setinitText] = useState([]);
@@ -78,22 +78,13 @@ const Todo = () => {
 
   const fnInsert = (initText, value, setValue) => {
     const fixtodo = todos;
-    // const arr02 = [...todos]
-    // console.log(arr02===todos)
     const Index = initText[1];
-    fixtodo[Index - 1] = {
-      ...fixtodo[Index - 1],
+    fixtodo[Index -1] = {
+      ...fixtodo[Index -1],
       text: value,
     };
-    // fixttodo를 todos에 전체 복사해서 해당 index를 찾음
-    // 나는 id가 1부터 시작하기 때문에  -1부터 처리해야함
-    // 스프레드 연산자는 사용하면 리액트가 변화값이라고 인식하기 떄문에 ...fixtodo한번 더 쓰고 
-    // text값 을 바꾸기 위해 적어줌 
-
-      //  아래 코드로도 변경 가능하지만 권유 하진 않음 // 
-    // const NextTodo = { ...todos[initText[1] - 1], text: value };
-    // const fixtodo = todos.splice(initText[1] - 1, 1, NextTodo);
-
+    console.log("Index",Index);
+    console.log("initText",initText[1]);
     setValue('');
     dispatch({ type: 'FIX', fixtodo });
   };
@@ -108,7 +99,7 @@ const Todo = () => {
   const onFix = useCallback((id, text, isModify) => {
     setinitText(text);
     Setbtn(isModify);
-    // 현재 생성되어있는 id와 text 값을 onFix에 담고 setinitText(생성될 값)에 text로 담아라
+    
   }, []);
 
   const ModifyClick = (btn, value, onInsert, setValue, id) => {
@@ -120,17 +111,6 @@ const Todo = () => {
     } else {
       Setbtn(!btn);
     }
-    // const fValue = value.split('\n').map((line, i) => {
-    //   return (
-    //     <span key={i}>
-    //       {line}
-    //       <br />
-    //     </span>
-    //   );
-    // });
-    //const fValue = value;
-    // setValue(''); // value 초기화
-    //todos.id === id ? fnInsert(fValue):onInsert(fValue);
 
     todos.id === id ? fnInsert(initText, value, setValue) : onInsert(value, id);
   };

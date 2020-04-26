@@ -6,7 +6,7 @@ import {
 } from 'react-icons/md';
 import { TiPencil } from 'react-icons/ti';
 import cn from 'classnames';
-import './TodoListItem.scss';
+import './css/TodoListItem.scss';
 
 const TodoListItem = ({ todo, onRemove, onToggle, onFix }) => {
   const { id, text, checked, isModify } = todo;

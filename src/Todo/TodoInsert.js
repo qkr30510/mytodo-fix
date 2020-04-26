@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { MdAdd } from 'react-icons/md';
-import './TodoInsert.scss';
+import './css/TodoInsert.scss';
 
 const TodoInsert = ({ onInsert, initText, btn, ModifyClick, id }) => {
   const [value, setValue] = useState('');
@@ -21,14 +21,14 @@ const TodoInsert = ({ onInsert, initText, btn, ModifyClick, id }) => {
       alert('값을 입력해주세요');
       return false;
     }
-    const fValue = value.split('\n').map((line, i) => {
-      return (
-        <span key={i}>
-          {line}
-          <br />
-        </span>
-      );
-    });
+    // const fValue = value.split('\n').map((line, i) => {
+    //   return (
+    //     <span key={i}>
+    //       {line}
+    //       <br />
+    //     </span>
+    //   );
+    // });
 
     //const fValue = value;
     //onInsert(fValue);

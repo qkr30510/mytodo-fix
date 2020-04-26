@@ -1,5 +1,5 @@
 import React from "react";
-import './TodoWrap.scss';
+import './css/TodoWrap.scss';
 
 const TodoWrap = ({ children}) => {
     return (
