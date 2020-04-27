@@ -1,13 +1,59 @@
 import React from 'react';
+import styled, {css} from 'styled-components'
+
+const Box = styled.div`
+/* props로 넣어준 값을 직접 전달해줄 수 있습니다. */
+/* background:${props => props.color || '#fff'}; */
+padding: 1rem;
+display:flex;
+justify-content:center;
+align-content:space-around;
+max-width:650px;
+height:100vh;
+margin:auto;
+border:2px solid #000;
+box-sizing:border-box;
+padding-top:calc(100vh - 50%);
+
+form{
+  width:100%;
+}
+
+`;
+
+const DivWrap = styled.div`
+  border-bottom:1px solid #666;
+  width:100%;
+  text-align:center;
+  margin-bottom:1.5rem;
+
+  label{
+    display:flex;
+    justify-content:space-between;
+
+    input[type=text]{
+      padding:5px;
+      background:none;
+      border:none;
+      outline:none;
+      width:60%;
+      text-align:right;
+      
+    }
+    textarea{
+      width:80%;
+    }
+  }
+`
 
 const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
  
   return (
-    <>
+    <Box >
       <form>
-        <div>
+        <DivWrap>
           <label>
-            아이디
+            아이디:
             <input
               type="text"
               name="writeId"
@@ -16,10 +62,10 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
             />
             <button>중복체크</button>
           </label>
-        </div>
-        <div>
+        </DivWrap>
+        <DivWrap>
           <label>
-            비밀번호
+            비밀번호:
             <input
               type="text"
               name="password"
@@ -27,10 +73,10 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
               onChange={onChange}
             />
           </label>
-        </div>
-        <div>
+        </DivWrap>
+        <DivWrap>
           <label>
-            비밀번호확인
+            비밀번호 확인:
             <input
               type="text"
               name="checkpw"
@@ -38,19 +84,17 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
               onChange={onChange}
             />
           </label>
-        </div>
-        <div>
+        </DivWrap>
+        <DivWrap>
           <label>
-            성별
-            <input type="radio" name="gender" value="man" />
-            남자
-            <input type="radio" name="gender" value="woman" />
-            여자
+            성별:
+            <input type="radio" name="gender" value="man" />남자
+            <input type="radio" name="gender" value="woman" />여자
           </label>
-        </div>
-        <div>
+        </DivWrap>
+        <DivWrap>
           <label>
-            생년월일
+            생년월일:
             <select name="year" id="year">
               <option value="1999">1999</option>
             </select>
@@ -61,10 +105,10 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
               <option value="1">1</option>
             </select>
           </label>
-        </div>
-        <div>
+        </DivWrap>
+        <DivWrap>
           <label>
-            취미
+            취미:
             <label>              
               <input type="checkbox" name="exercise" />
               운동
@@ -78,10 +122,10 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
               영화보기
             </label>            
           </label>
-        </div>
-        <div>
+        </DivWrap>
+        <DivWrap>
           <label>
-            자기소개
+            자기소개:
             <textarea
               name="introduce"
               id=""
@@ -91,13 +135,13 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
               onChange={onChange}
             ></textarea>
           </label>
-        </div>
-        <div>
+        </DivWrap>
+        <DivWrap>
           <button>취소</button>
           <button>가입완료</button>
-        </div>
+        </DivWrap>
       </form>
-    </>
+    </Box>
   );
 };
 

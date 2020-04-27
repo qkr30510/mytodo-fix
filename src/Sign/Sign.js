@@ -2,6 +2,7 @@ import React from 'react';
 import useInput from '../hook/useInput';
 import SignInsert from './SignInsert';
 
+
 const Sign = () => {
   const [{ writeId, password, checkpw, introduce }, onChange] = useInput({
     writeId: '',
