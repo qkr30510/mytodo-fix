@@ -83,14 +83,15 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
   
   const year = () => {
     const y = [];
+
     for (let i=1920; i<2020; i++){      
-       y.push(<option>i</option>)
-       
-      //console.log(i)
-      return y
-      
+      console.log(<option>{i}</option>)
+     
+      y.push(<option>{i}</option>)    
      }
+     console.log(y)
     
+    return y
     //console.log(y)
     
     // test.innerHTML = one.join('');   
@@ -141,7 +142,7 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
         <DivWrap>
           <label>생년월일</label>
           <select name="year" id="year">
-            <option value="1999">{year()}</option>
+            {year()}
           </select>
           <select name="month" id="month">
             <option value="12">12</option>
