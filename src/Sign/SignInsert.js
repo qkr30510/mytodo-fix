@@ -75,14 +75,27 @@ const Button = styled.button`
 `
 
 
-// const Select = () => {
-//   const y = '';
 
-//  for (var y = 0; y<2020; y++){
-//         y += ''
-//  }
-// }
+ 
+
+
 const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
+  
+  const year = () => {
+    const y = [];
+    for (let i=1920; i<2020; i++){      
+       y.push(<option>i</option>)
+       
+      //console.log(i)
+      return y
+      
+     }
+    
+    //console.log(y)
+    
+    // test.innerHTML = one.join('');   
+  }
+
   return (
     <Box>
       <h3>회원가입</h3>
@@ -128,7 +141,7 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
         <DivWrap>
           <label>생년월일</label>
           <select name="year" id="year">
-            <option value="1999">1999</option>
+            <option value="1999">{year()}</option>
           </select>
           <select name="month" id="month">
             <option value="12">12</option>
