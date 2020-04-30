@@ -6,7 +6,6 @@ const Box = styled.div`
 /* background:${(props) => props.color || '#fff'}; */
 padding: 1rem;
 max-width:650px;
-height:100vh;
 margin:auto;
 border:2px solid #000;
 box-sizing:border-box;
@@ -30,6 +29,10 @@ const DivWrap = styled.div`
   width: 100%;
   margin-bottom: 1rem;
   border-bottom:1px solid #666;
+ 
+  &:last-child{
+  border-bottom:none;
+}
   
   label {
     display: block;    
@@ -71,7 +74,8 @@ const Button = styled.button`
       border-radius:25px;
       border:none;
       padding:0.2rem;
-      margin-bottom:0.3rem;
+      margin-bottom:0.5rem;
+      cursor:pointer;
 `
 
 
@@ -83,18 +87,28 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
   
   const year = () => {
     const y = [];
-
-    for (let i=1920; i<2020; i++){      
-      console.log(<option>{i}</option>)
-     
+    for (let i=1920; i<2020; i++){           
       y.push(<option>{i}</option>)    
-     }
-     console.log(y)
-    
-    return y
-    //console.log(y)
-    
-    // test.innerHTML = one.join('');   
+     }     
+    return y    
+  }
+
+  const month = () => {
+    const m = [];
+    for(let i=1; i<13; i++){
+      m.push(<option>{i}</option>)
+      
+    }
+    return m
+  }
+
+  const day = () => {
+    const d = [];
+    for(let i=1; i<32; i++){
+      d.push(<option>{i}</option>)
+           
+    }
+    return d
   }
 
   return (
@@ -145,10 +159,10 @@ const SignInsert = ({ writeId, password, checkpw, introduce, onChange }) => {
             {year()}
           </select>
           <select name="month" id="month">
-            <option value="12">12</option>
+          {month()}
           </select>
           <select name="day" id="day">
-            <option value="1">1</option>
+            {day()}
           </select>
         </DivWrap>
         <DivWrap>
