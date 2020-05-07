@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 
 const Box = styled.div`
@@ -28,6 +28,9 @@ const DivWrap = styled.div`
   width: 100%;
   margin-bottom: 1rem;
   border-bottom: 1px solid #666;
+  padding: 15px 10px; 
+  box-sizing:border-box;
+  /* border: 3px solid #f66969 */
 
   &:last-child {
     border-bottom: none;
@@ -51,7 +54,7 @@ const DivWrap = styled.div`
   label {
     display: block;
     width: 100%;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
     font-weight: bold;
   }
   input[type='text'] {
@@ -88,7 +91,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const SignInsert = ({ introduce, onChange}) => {
+const SignInsert = ({ introduce, onChange }) => {
   const [idValue, setIdValue] = useState('');
   const [pwValue, setPwValue] = useState('');
   const [sePwValue, seSetPwValue] = useState('');
@@ -117,47 +120,56 @@ const SignInsert = ({ introduce, onChange}) => {
     return d;
   };
 
-// 아이디 유효성 체크 
+  // 아이디 유효성 체크
   const regTypeId = /^[a-zA-Z0-9]*$/;
-  if (!regTypeId.test(idValue)){
+  if (!regTypeId.test(idValue)) {
     //console.log("아이디엔 영문과 숫자만 가능합니다.",idValue)
   }
 
   const checkNum = idValue.search(/[0-9]/g);
-  const checkEng = idValue.search(/[a-z]/ig);
-  if(checkNum < 0 || checkEng < 0){
-   // console.log('아이디는 영문과 숫자가 혼용되어야합니다.',idValue)
+  const checkEng = idValue.search(/[a-z]/gi);
+  if (checkNum < 0 || checkEng < 0) {
+    // console.log('아이디는 영문과 숫자가 혼용되어야합니다.',idValue)
   }
-  
 
   const checkid = useCallback((e) => {
-    setIdValue(e.target.value);  
-      // 정규표현식으로 체크 먼저하고 setValue로 넣기!!
-
+    setIdValue(e.target.value);
+    // 정규표현식으로 체크 먼저하고 setValue로 넣기!!
   }, []);
 
-// 비밀번호 유효성 체크 
-  
-  const checkPwNum = pwValue.search(/[0-9]/g);
-  
-  const checkPwEng = pwValue.search(/[a-z]/ig);
-  const checkPwSpe = pwValue.search(/[~!@#$%^&*()_+|<>?:{}]/gi);
-  const checkpwKor = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
-  console.log("z",checkPwNum)
-  //const pwCheckRule = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9])$/ ;
-  
+  // 비밀번호 유효성 체크
 
-  if(checkPwNum < 0 || checkPwEng < 0 || checkPwSpe < 0){
-    console.log('비밀번호는 영문과 숫자, 특수문자가 혼용되어야합니다.',pwValue)
-    if(checkpwKor.test(pwValue)){
-      console.log('비밀번호는 한글이 들어갈수 없습니다',pwValue)
-    }
+  // const regps = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9])$/
+  // if (!regps.test(pwValue)){
+  //   console.log("아이디엔 영문과 숫자만 가능합니다.",pwValue)
+  // }
+
+  const checkPwNum = pwValue.search(/[0-9]/g);
+  const checkPwEng = pwValue.search(/[a-z]/gi);
+  const checkPwSpe = pwValue.search(/[~!@#$%^&*()_+|<>?:{}]/g);
+  //console.log("z",checkPwNum)
+
+  if (checkPwNum < 0 || checkPwEng < 0 || checkPwSpe < 0) {
+    console.log(
+      '비밀번호는 영문과 숫자, 특수문자가 혼용되어야합니다.',
+      pwValue,
+    );
   }
-  
-  const checkPw = useCallback ((e) => {
-    setPwValue(e.target.value)
+
+  // 비밀번호 중복체크
+  const secheckPw = useCallback ((e) => {
+    seSetPwValue(e.target.value)    
   },[])
   
+  if (pwValue !== sePwValue) {
+    console.log('비밀번호를 다시 확인해주세요',sePwValue);
+  }
+
+
+  const checkPw = useCallback((e) => {
+    setPwValue(e.target.value);
+  }, []);
+
   return (
     <Box>
       <h3>회원가입</h3>
@@ -170,8 +182,9 @@ const SignInsert = ({ introduce, onChange}) => {
             value={idValue}
             onChange={checkid}
             placeholder="영문과 숫자를 결합해주세요."
-            id="userid"                                    
-          />           
+            id="userid"
+            autoComplete="off"
+          />
           <Button>중복체크</Button>
         </DivWrap>
         <DivWrap>
@@ -182,6 +195,7 @@ const SignInsert = ({ introduce, onChange}) => {
             value={pwValue}
             onChange={checkPw}
             placeholder="6자리 이상 영문+숫자+특수문자"
+            autoComplete="off"
           />
         </DivWrap>
         <DivWrap>
@@ -190,7 +204,8 @@ const SignInsert = ({ introduce, onChange}) => {
             type="text"
             name="checkpw"
             value={sePwValue}
-            onChange={checkPw}
+            onChange={secheckPw}
+            autocomplete="off"
           />
         </DivWrap>
         <DivWrap>
