@@ -24,13 +24,19 @@ form{
 
 `;
 
+const RedId = css`
+  border: 3px solid #f66969;
+`;
+
 const DivWrap = styled.div`
   width: 100%;
   margin-bottom: 1rem;
   border-bottom: 1px solid #666;
-  padding: 15px 10px; 
-  box-sizing:border-box;
+  padding: 15px 10px;
+  box-sizing: border-box;
   /* border: 3px solid #f66969 */
+
+  ${(props) => props.error === true && RedId}
 
   &:last-child {
     border-bottom: none;
@@ -91,10 +97,12 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const SignInsert = ({ introduce, onChange }) => {
+const SignInsert = (onSignInsert) => {
   const [idValue, setIdValue] = useState('');
-  const [pwValue, setPwValue] = useState('');
+  const [pwValue, setPwValue] = useState('');  
   const [sePwValue, seSetPwValue] = useState('');
+  const [introduce, setIntroduce] = useState('');
+  // const [error, setError] = useState(false);
 
   const year = () => {
     const y = [];
@@ -121,60 +129,133 @@ const SignInsert = ({ introduce, onChange }) => {
   };
 
   // 아이디 유효성 체크
-  const regTypeId = /^[a-zA-Z0-9]*$/;
-  if (!regTypeId.test(idValue)) {
-    //console.log("아이디엔 영문과 숫자만 가능합니다.",idValue)
-  }
 
-  const checkNum = idValue.search(/[0-9]/g);
-  const checkEng = idValue.search(/[a-z]/gi);
-  if (checkNum < 0 || checkEng < 0) {
-    // console.log('아이디는 영문과 숫자가 혼용되어야합니다.',idValue)
-  }
+  const regTypeId = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2,}$/;
 
   const checkid = useCallback((e) => {
     setIdValue(e.target.value);
     // 정규표현식으로 체크 먼저하고 setValue로 넣기!!
   }, []);
 
+  const error = false;
+
+  const errorID = useCallback(
+    (e) => {
+      const error = true;
+      // 아이디 유효성 체크
+      if (!idValue) {
+        return !error;
+      } else {
+        if (!regTypeId.test(idValue)) {
+          //console.log("아이디엔 영문과 숫자만 가능합니다.",idValue);
+          return error;
+        }
+      }
+    },
+    [idValue],
+  );
+  // 아이디 중복 체크 
+  const duplicate = () => {
+    
+    const prevId = localStorage.getItem('아이디');
+    
+    console.log(localStorage.getItem('아이디'))
+    if(prevId === idValue){
+      alert("중복된 아이디입니다.")
+      return false;
+    }else{      
+      return true;
+    }
+    
+  }
+
   // 비밀번호 유효성 체크
-
-  // const regps = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9])$/
-  // if (!regps.test(pwValue)){
-  //   console.log("아이디엔 영문과 숫자만 가능합니다.",pwValue)
-  // }
-
-  const checkPwNum = pwValue.search(/[0-9]/g);
-  const checkPwEng = pwValue.search(/[a-z]/gi);
-  const checkPwSpe = pwValue.search(/[~!@#$%^&*()_+|<>?:{}]/g);
-  //console.log("z",checkPwNum)
-
-  if (checkPwNum < 0 || checkPwEng < 0 || checkPwSpe < 0) {
-    console.log(
-      '비밀번호는 영문과 숫자, 특수문자가 혼용되어야합니다.',
-      pwValue,
-    );
-  }
-
-  // 비밀번호 중복체크
-  const secheckPw = useCallback ((e) => {
-    seSetPwValue(e.target.value)    
-  },[])
-  
-  if (pwValue !== sePwValue) {
-    console.log('비밀번호를 다시 확인해주세요',sePwValue);
-  }
-
 
   const checkPw = useCallback((e) => {
     setPwValue(e.target.value);
   }, []);
 
+  const errorPw = useCallback(
+    (e) => {
+      const error = true;
+      if (!pwValue) {
+        return !error;
+      } else {
+        const regps = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,10}$/;
+        if (!regps.test(pwValue)) {
+          //console.log("비번",pwValue)
+          return error;
+        }
+      }
+    },
+    [pwValue],
+  );
+
+  // 비밀번호 중복체크
+
+  const secheckPw = useCallback((e) => {
+    seSetPwValue(e.target.value);
+  }, []);
+
+  const errorSPw = useCallback(
+    (e) => {
+      const error = true;
+      if (!sePwValue) {
+        return !error;
+      } else {
+        if (pwValue !== sePwValue) {
+          // console.log('비밀번호를 다시 확인해주세요',sePwValue);
+          return error;
+        }
+      }
+    },
+    [sePwValue],
+  );
+  const checkintro = useCallback((e) => {
+    setIntroduce(e.target.value);
+  }, []);
+
+
+  const onClick = useCallback(() => {
+    if (error) {
+      console.log('빨간박스의 값을 확인하세요.', error);
+      return false;
+    } else if (!idValue) {
+      alert('아이디를 입력해주세요.');
+      return false;
+    }else if (!duplicate) {
+      alert('아이디 중복체크를 해주세요.');
+      return false;
+    }else if (!pwValue) {
+      alert('비밀번호를 입력해주세요.');
+      return false;
+    } else if (!sePwValue) {
+      alert('비밀번호 확인을 입력해주세요.');
+      console.log('비밀번호 확인을 입력해주세요.',sePwValue);
+      return false;
+    }else if (!introduce) {
+      alert('자기소개를 입력해주세요.');
+      return false;
+    } else {
+      alert("환영합니다."+idValue+"님")
+      localStorage.setItem('아이디', idValue);
+      localStorage.setItem('비밀번호', pwValue);
+
+      setIdValue('');
+      setPwValue('');
+      seSetPwValue('');
+      setIntroduce('');
+
+      onSignInsert(idValue,pwValue)
+    }
+  }, [idValue, pwValue, sePwValue, introduce]);
+
   return (
     <Box>
       <h3>회원가입</h3>
       <form>
-        <DivWrap>
+        {/* <DivWrap error={ errorId()}> */}
+        <DivWrap error={errorID()}>
           <label>아이디</label>
           <input
             type="text"
@@ -184,33 +265,33 @@ const SignInsert = ({ introduce, onChange }) => {
             placeholder="영문과 숫자를 결합해주세요."
             id="userid"
             autoComplete="off"
-          />
-          <Button>중복체크</Button>
+          />          
+          <Button type="button" onClick={duplicate}>중복체크</Button>
         </DivWrap>
-        <DivWrap>
+        <DivWrap error={errorPw()}>
           <label>비밀번호</label>
           <input
             type="text"
             name="password"
             value={pwValue}
             onChange={checkPw}
-            placeholder="6자리 이상 영문+숫자+특수문자"
+            placeholder="6자리 이상 10자리 이하 영문+숫자+특수문자"
             autoComplete="off"
           />
         </DivWrap>
-        <DivWrap>
+        <DivWrap error={errorSPw()}>
           <label>비밀번호 확인</label>
           <input
             type="text"
             name="checkpw"
             value={sePwValue}
             onChange={secheckPw}
-            autocomplete="off"
+            autoComplete="off"
           />
         </DivWrap>
         <DivWrap>
           <label>성별</label>
-          <input type="radio" name="gender" value="man" />
+          <input type="radio" name="gender" value="man" defaultChecked />
           남자
           <input type="radio" name="gender" value="woman" />
           여자
@@ -231,7 +312,7 @@ const SignInsert = ({ introduce, onChange }) => {
           <label>취미</label>
           <CheckBoxWrap>
             <label>
-              <input type="checkbox" name="exercise" />
+              <input type="checkbox" name="exercise" defaultChecked />
               운동
             </label>
             <label>
@@ -241,6 +322,14 @@ const SignInsert = ({ introduce, onChange }) => {
             <label>
               <input type="checkbox" name="movie" />
               영화보기
+            </label>
+            <label>
+              <input type="checkbox" name="shopping" />
+              쇼핑
+            </label>
+            <label>
+              <input type="checkbox" name="etc" />
+              기타
             </label>
           </CheckBoxWrap>
         </DivWrap>
@@ -252,12 +341,14 @@ const SignInsert = ({ introduce, onChange }) => {
             cols="30"
             rows="10"
             value={introduce}
-            onChange={onChange}
+            onChange={checkintro}
           ></textarea>
         </DivWrap>
         <DivWrap>
           <Button>취소</Button>
-          <Button>가입완료</Button>
+          <Button type="button" onClick={onClick}>
+            가입완료
+          </Button>
         </DivWrap>
       </form>
     </Box>
