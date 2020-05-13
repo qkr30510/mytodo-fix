@@ -109,6 +109,7 @@ const onClick = () => {
   }else if(pwValue !== getpw){
     alert("비밀번호가 잘못되었습니다.")
   }
+  //여기서 페이지 이동 
 }
 
   return (

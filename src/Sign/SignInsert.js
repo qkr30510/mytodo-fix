@@ -28,6 +28,11 @@ const RedId = css`
   border: 3px solid #f66969;
 `;
 
+const countColor = css`
+  color: red;
+  font-weight: bold;
+`;
+
 const DivWrap = styled.div`
   width: 100%;
   margin-bottom: 1rem;
@@ -35,7 +40,7 @@ const DivWrap = styled.div`
   padding: 15px 10px;
   box-sizing: border-box;
   /* border: 3px solid #f66969 */
-
+  position: relative;
   ${(props) => props.error === true && RedId}
 
   &:last-child {
@@ -56,7 +61,15 @@ const DivWrap = styled.div`
       }
     }
   }
+  p {
+    position: absolute;
+    top: 0.8rem;
+    right: 5rem;
+    font-size: 0.8rem;
+    font-style: italic;
 
+    
+  }
   label {
     display: block;
     width: 100%;
@@ -71,11 +84,23 @@ const DivWrap = styled.div`
     width: 70%;
     text-align: left;
   }
-
+  input[type='password'] {
+    padding: 5px;
+    background: none;
+    border: none;
+    outline: none;
+    width: 70%;
+    text-align: left;
+  }
   textarea {
     width: 100%;
   }
 `;
+
+const CountSpan = styled.span` 
+  color: blue;
+  ${(props) => props.countcolorchx !== true && countColor}
+`
 
 const CheckBoxWrap = styled.div`
   display: flex;
@@ -99,7 +124,7 @@ const Button = styled.button`
 
 const SignInsert = (onSignInsert) => {
   const [idValue, setIdValue] = useState('');
-  const [pwValue, setPwValue] = useState('');  
+  const [pwValue, setPwValue] = useState('');
   const [sePwValue, seSetPwValue] = useState('');
   const [introduce, setIntroduce] = useState('');
   // const [error, setError] = useState(false);
@@ -154,23 +179,35 @@ const SignInsert = (onSignInsert) => {
     },
     [idValue],
   );
-  // 아이디 중복 체크 
+  // 아이디 중복 체크
   const duplicate = () => {
-    
     const prevId = localStorage.getItem('아이디');
-    
-    console.log(localStorage.getItem('아이디'))
-    if(prevId === idValue){
-      alert("중복된 아이디입니다.")
+
+    console.log(localStorage.getItem('아이디'));
+    if (prevId === idValue) {
+      alert('중복된 아이디입니다.');
       return false;
-    }else{      
+    } else {
       return true;
     }
+  };
+
+
+  // 비밀번호 숫자 
+  const countpw = pwValue.length;  
+  const count = useCallback((e) => {
+    console.log(countpw);
     
-  }
+    if (countpw > 5 && countpw < 11) {
+      const countcolorchx = true;
+      console.log('count', true);
+      return countcolorchx;
+    }
+    
+  }, [countpw]);
 
-  // 비밀번호 유효성 체크
 
+// 비밀번호 유효성 체크
   const checkPw = useCallback((e) => {
     setPwValue(e.target.value);
   }, []);
@@ -215,7 +252,6 @@ const SignInsert = (onSignInsert) => {
     setIntroduce(e.target.value);
   }, []);
 
-
   const onClick = useCallback(() => {
     if (error) {
       console.log('빨간박스의 값을 확인하세요.', error);
@@ -223,21 +259,21 @@ const SignInsert = (onSignInsert) => {
     } else if (!idValue) {
       alert('아이디를 입력해주세요.');
       return false;
-    }else if (!duplicate) {
+    } else if (!duplicate) {
       alert('아이디 중복체크를 해주세요.');
       return false;
-    }else if (!pwValue) {
+    } else if (!pwValue) {
       alert('비밀번호를 입력해주세요.');
       return false;
     } else if (!sePwValue) {
       alert('비밀번호 확인을 입력해주세요.');
-      console.log('비밀번호 확인을 입력해주세요.',sePwValue);
+      console.log('비밀번호 확인을 입력해주세요.', sePwValue);
       return false;
-    }else if (!introduce) {
+    } else if (!introduce) {
       alert('자기소개를 입력해주세요.');
       return false;
     } else {
-      alert("환영합니다."+idValue+"님")
+      alert('환영합니다.' + idValue + '님');
       localStorage.setItem('아이디', idValue);
       localStorage.setItem('비밀번호', pwValue);
 
@@ -246,7 +282,7 @@ const SignInsert = (onSignInsert) => {
       seSetPwValue('');
       setIntroduce('');
 
-      onSignInsert(idValue,pwValue)
+      onSignInsert(idValue, pwValue);
     }
   }, [idValue, pwValue, sePwValue, introduce]);
 
@@ -254,7 +290,6 @@ const SignInsert = (onSignInsert) => {
     <Box>
       <h3>회원가입</h3>
       <form>
-        {/* <DivWrap error={ errorId()}> */}
         <DivWrap error={errorID()}>
           <label>아이디</label>
           <input
@@ -265,24 +300,29 @@ const SignInsert = (onSignInsert) => {
             placeholder="영문과 숫자를 결합해주세요."
             id="userid"
             autoComplete="off"
-          />          
-          <Button type="button" onClick={duplicate}>중복체크</Button>
+          />
+          <Button type="button" onClick={duplicate}>
+            중복체크
+          </Button>
         </DivWrap>
         <DivWrap error={errorPw()}>
           <label>비밀번호</label>
           <input
-            type="text"
+            type="password"
             name="password"
             value={pwValue}
             onChange={checkPw}
             placeholder="6자리 이상 10자리 이하 영문+숫자+특수문자"
             autoComplete="off"
           />
+          <p>
+            현재 입력된 글자 수:<CountSpan countcolorchx={count()}>{countpw}</CountSpan>
+          </p>
         </DivWrap>
         <DivWrap error={errorSPw()}>
           <label>비밀번호 확인</label>
           <input
-            type="text"
+            type="password"
             name="checkpw"
             value={sePwValue}
             onChange={secheckPw}
