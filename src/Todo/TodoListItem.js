@@ -5,16 +5,17 @@ import {
   MdRemoveCircleOutline,
 } from 'react-icons/md';
 import { TiPencil } from 'react-icons/ti';
+import { AiFillAlert } from "react-icons/ai";
 import cn from 'classnames';
 import './css/TodoListItem.scss';
 
-const TodoListItem = ({ todo, onRemove, onToggle, onFix }) => {
+const TodoListItem = ({ todo, onRemove, onToggle, onFix, onEmergency, checkbox }) => {
   const { id, text, checked, isModify } = todo;
- 
-
-
+   
   return (    
     <div className="TodoListItem">
+      <div className="emergency"><AiFillAlert/></div>
+      <input className="checkbox" type="checkbox"/>
       <div className={cn('checkbox', { checked })} onClick={() => onToggle(id)}>
         {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
         <div className="text">{text}</div>

@@ -2,7 +2,8 @@ import React from 'react';
 import TodoListItem from './TodoListItem';
 import './css/TodoList.scss';
 
-const TodoList = ({ todos, onRemove, onToggle, onFix, btn }) => {
+const TodoList = ({ todos, onRemove, onToggle, onFix, onEmergency, btn, checkbox }) => {
+
   return (
     <div className="TodoList">
       {btn === false ? <div className="TodoListSub"></div> : <></>}
@@ -12,7 +13,7 @@ const TodoList = ({ todos, onRemove, onToggle, onFix, btn }) => {
           key={todo.id}
           onRemove={onRemove}
           onToggle={onToggle}
-          onFix={onFix}
+          onFix={onFix}    
         />
       ))}
     </div>

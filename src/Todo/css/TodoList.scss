@@ -1,9 +1,10 @@
 .TodoList{
-    min-height:320px;
-    max-height:513px;
+    
+    height:413px;
     overflow-y: auto;
     position: relative;
     
+  
     .TodoListSub{
         content:"";
         display:block;

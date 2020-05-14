@@ -2,9 +2,9 @@ import React from "react";
 import './css/TodoWrap.scss';
 
 const TodoWrap = ({ children}) => {
-    return (
+    return (        
         <div className="TodoTemplate">
-            <div className="app-title">일정 관리</div>
+            <div className="app-title">My Todo</div>
             <div className="content">{children}</div>
         </div>
     );

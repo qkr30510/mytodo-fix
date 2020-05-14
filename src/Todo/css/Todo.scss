@@ -1,0 +1,25 @@
+.ToTal{
+    
+    
+    height:56px;
+    
+    p{
+        text-align: right;
+        padding:2% 1% 2% 0%;
+        margin:0;
+        background:#000;
+        color:#fff;        
+        box-sizing: border-box;        
+        position: fixed;    
+        width:512px;
+        height: 56px;
+        box-sizing: border-box;
+
+        span{
+            color: red;
+            font-weight: bold;
+        }
+    }
+
+}
+
