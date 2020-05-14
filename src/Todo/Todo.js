@@ -98,12 +98,45 @@ const Todo = () => {
     todos.id === id ? fnInsert(initText, value, setValue) : onInsert(value, id);
   };
 
+  let date = new Date();
+  console.log(date)
+  const y = date.getFullYear();  
+  const m = date.getMonth()+1;  
+  const d = date.getDate();  
+  const dd = date.getDay();
+  
+  const ddd = () => {
+    if(dd === 0 ){
+      return "Sunday"
+    }else if(dd === 1){
+      return "Monday"
+    }else if(dd === 2){
+      return "Tuesday"
+    }else if(dd === 3){
+      return "Wednesday"
+    }else if(dd === 4){
+      return "Thursday"
+    }else if(dd === 5){
+      return "Friday"
+    }else{
+      return "Saturday"
+    } 
+  }
+
 
 
   return (
     <TodoWrap>
-      <div className="ToTal">
-        <p>총 개수: <span>{total}</span>개</p>      
+      <div className="ToTalWrap">  
+        <div className="ToTal">        
+        <div className="date">
+          {y}/{m}/{d}
+          <p>{ddd()}</p>
+        </div>      
+        <p>          
+          총 개수: <span>{total}</span>개
+          </p>      
+          </div>
       </div>
       <TodoList
         todos={todos}

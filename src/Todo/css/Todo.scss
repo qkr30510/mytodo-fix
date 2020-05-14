@@ -1,11 +1,10 @@
-.ToTal{
-    
+.ToTalWrap{
     
     height:56px;
     
-    p{
+    .ToTal{
         text-align: right;
-        padding:2% 1% 2% 0%;
+        padding:2% 1% ;
         margin:0;
         background:#000;
         color:#fff;        
@@ -14,11 +13,24 @@
         width:512px;
         height: 56px;
         box-sizing: border-box;
-
-        span{
-            color: red;
-            font-weight: bold;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        .date{
+            text-align: left;
+            p{
+                color:#fff;
+                margin:0;
+                font-style: italic;
+            }
         }
+        p{
+            span{
+                color: red;
+                font-weight: bold;
+            }
+        }
+        
     }
 
 }
