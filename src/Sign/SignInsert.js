@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import {Link} from 'react-router-dom';
+
 import styled, { css } from 'styled-components';
 
 const Box = styled.div`
@@ -196,11 +198,10 @@ const SignInsert = (onSignInsert) => {
   // 비밀번호 숫자 
   const countpw = pwValue.length;  
   const count = useCallback((e) => {
-    console.log(countpw);
+  
     
     if (countpw > 5 && countpw < 11) {
-      const countcolorchx = true;
-      console.log('count', true);
+      const countcolorchx = true;      
       return countcolorchx;
     }
     
@@ -281,7 +282,6 @@ const SignInsert = (onSignInsert) => {
       setPwValue('');
       seSetPwValue('');
       setIntroduce('');
-
       onSignInsert(idValue, pwValue);
     }
   }, [idValue, pwValue, sePwValue, introduce]);

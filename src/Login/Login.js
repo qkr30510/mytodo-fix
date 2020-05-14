@@ -115,7 +115,7 @@ const onClick = () => {
   return (
     <>
       <LoginWrap>
-        <h2>Login</h2>
+        <h2>Welcome</h2>
         <Form>
           <div>
             <input type="text" value={idValue} onChange={idOnChange} />
