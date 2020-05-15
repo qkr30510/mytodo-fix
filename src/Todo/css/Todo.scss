@@ -8,8 +8,9 @@
         margin:0;
         background:#000;
         color:#fff;        
-        box-sizing: border-box;        
-        position: fixed;    
+        position: -webkit-sticky;            
+        position: sticky;    
+        top: 0;
         width:512px;
         height: 56px;
         box-sizing: border-box;

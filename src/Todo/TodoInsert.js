@@ -4,9 +4,7 @@ import './css/TodoInsert.scss';
 
 const TodoInsert = ({ onInsert, initText, btn, ModifyClick, id }) => {
   const [value, setValue] = useState('');
-  // console.log("btn상태",btn)
-  //console.log(initText, id)
-  //const [initText , setinitText] = useState('');
+
 
   useEffect(() => {
     setValue(initText);

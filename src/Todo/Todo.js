@@ -21,12 +21,12 @@ const Todo = () => {
     },
   ]);
   const total = todos.length
-  console.log(total)
+  //console.log(total)
   const fixtodo = { ...todos };
   const [initText, setinitText] = useState([]);
   const [btn, Setbtn] = useState('true');
   const nextId = useRef(3);
-
+ 
   // 등록하기
   const onInsert = useCallback(
     (text) => {
@@ -46,32 +46,67 @@ const Todo = () => {
   // 수정하기
 
   //수정하기 버튼 클릭
-  const onFix = useCallback((id, text, isModify) => {
-    setinitText([text,id]);
-    //console.log(id);    
-    Setbtn(isModify);
-  }, []);
 
-  // 수정하기 - 글입력
-  const fnInsert = (initText, value, setValue) => {
+  const onFix = useCallback((id, text, isModify) => {
+    Setbtn(isModify);
+    setinitText([text,id]);
+    const fixtodo = {...todos}; 
+    console.log('fixtodo', fixtodo)
+    console.log('setinitText',setinitText)
+    console.log("아이디",id,text);    
+
+    
+ }, []);
+
+  
+ // 수정하기 - 글입력
+  const fnInsert = (initText, value, setValue ) => {
     const fixtodo = todos;
     const Index = initText[1];
     fixtodo[Index - 1] = {
       ...fixtodo[Index - 1],
       text: value,
     };
-    //console.log("id", initText)
+    console.log("id", initText)
     setValue('');
   };
 
+
+  //  수정하기 
+    // const onFix = useCallback(
+    //   (id, setinitText ,text, value, setValue, isModify) => {
+    //     setTodos(
+    //       todos.map((todo) =>
+    //         todo.id === id ? { ...todo, text: setinitText, value: text } : todo,
+    //         console.log(id, text, setinitText, value, text)
+    //       ),
+    //       // /console.log(id, text, setinitText, value) 
+    //     );
+    //     //setinitText([text,id]);
+    //     console.log()
+    //   },                
+    //   [todos],
+    // );
+
+    
+ 
   // 삭제하기    
 
-  const onRemove = useCallback(    
+
+  const onRemove = useCallback(        
     (id) => {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    },
+      const checkRemove = window.confirm('정말로 삭제하시겠습니까?');
+      if(checkRemove){
+        setTodos(todos.filter((todo) => todo.id !== id));  
+      }else{
+        return ;
+      }
+          
+    },    
     [todos],
+    
   );
+  
 
   // 토글하기
   const onToggle = useCallback(
@@ -84,6 +119,9 @@ const Todo = () => {
     },
     [todos],
   );
+
+
+
 
   // 벨류 체크 및 버튼 변경
   const ModifyClick = (btn, value, onInsert, setValue, id) => {
@@ -99,7 +137,7 @@ const Todo = () => {
   };
 
   let date = new Date();
-  console.log(date)
+  //console.log(date)
   const y = date.getFullYear();  
   const m = date.getMonth()+1;  
   const d = date.getDate();  
@@ -128,7 +166,7 @@ const Todo = () => {
   return (
     <TodoWrap>
       <div className="ToTalWrap">  
-        <div className="ToTal">        
+        <div className="ToTal" id="Total">        
         <div className="date">
           {y}/{m}/{d}
           <p>{ddd()}</p>
