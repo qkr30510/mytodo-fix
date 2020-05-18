@@ -2,7 +2,7 @@ import React from 'react';
 import TodoListItem from './TodoListItem';
 import './css/TodoList.scss';
 
-const TodoList = ({ todos, onRemove, onToggle, onFix, onEmergency, btn, checkbox }) => {
+const TodoList = ({ todos, onRemove, onToggle, onFix, btn }) => {
 
   return (
     <div className="TodoList">

@@ -9,7 +9,7 @@ import { AiFillAlert } from "react-icons/ai";
 import cn from 'classnames';
 import './css/TodoListItem.scss';
 
-const TodoListItem = ({ todo, onRemove, onToggle, onFix, onEmergency, checkbox }) => {
+const TodoListItem = ({ todo, onRemove, onToggle, onFix}) => {
   const { id, text, checked, isModify } = todo;
    
   return (    

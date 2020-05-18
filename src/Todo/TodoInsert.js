@@ -2,9 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { MdAdd } from 'react-icons/md';
 import './css/TodoInsert.scss';
 
-const TodoInsert = ({ onInsert, initText, btn, ModifyClick, id }) => {
+const TodoInsert = ({ id, onInsert, initText, btn, ModifyClick}) => {
   const [value, setValue] = useState('');
-
 
   useEffect(() => {
     setValue(initText);
@@ -25,10 +24,10 @@ const TodoInsert = ({ onInsert, initText, btn, ModifyClick, id }) => {
 
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
-      if (e.key === 'Enter' && e.shiftKey) {
-        return;
-      }
-      onClick();
+      // if (e.key === 'Enter' && e.shiftKey) {
+      //   return;
+      // }
+        onClick();          
       e.preventDefault();
     }
   };
@@ -45,7 +44,8 @@ const TodoInsert = ({ onInsert, initText, btn, ModifyClick, id }) => {
       {btn === false ? (
         <button
           type="button"
-          onClick={() => ModifyClick(btn, value, onInsert, setValue, id)}
+          onClick={() => ModifyClick(btn, value)}
+          //onClick={() => ModifyClick(btn, value, onInsert, setValue, id)
         >
           수정
         </button>
