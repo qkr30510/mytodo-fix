@@ -17,7 +17,7 @@ const TodoInsert = ({ id, onInsert, initText, btn, ModifyClick}) => {
     if (!value) {
       alert('값을 입력해주세요');
       return false;
-    }
+    }    
     onInsert(value);
     setValue(''); // value 초기화
   }, [onInsert, value]);
@@ -27,8 +27,18 @@ const TodoInsert = ({ id, onInsert, initText, btn, ModifyClick}) => {
       // if (e.key === 'Enter' && e.shiftKey) {
       //   return;
       // }
-        onClick();          
       e.preventDefault();
+
+      console.log(btn)
+
+      if(!value){
+        alert('값을 입력해주세요');
+        return false;
+      }else if(!btn){
+        ModifyClick(btn, value);
+      }else{
+        onClick();          
+      }              
     }
   };
 
