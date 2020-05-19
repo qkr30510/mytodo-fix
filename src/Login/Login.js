@@ -4,7 +4,7 @@ import styled, { css} from 'styled-components';
 const LoginWrap = styled.div`
   max-width:550px;
   width: 80vw;
-  height: 100vw;
+  height: 100vh;
   margin: auto;
 
   h2 {
