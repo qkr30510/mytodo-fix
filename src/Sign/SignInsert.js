@@ -169,7 +169,6 @@ const SignInsert = (onSignInsert) => {
 
   const checkid = useCallback((e) => {
     setIdValue(e.target.value);
-    // 정규표현식으로 체크 먼저하고 setValue로 넣기!!
   }, []);
 
   const error = false;
@@ -180,28 +179,37 @@ const SignInsert = (onSignInsert) => {
       // 아이디 유효성 체크
       if (!idValue) {
         return !error;
-      } else {
-        if (!regTypeId.test(idValue)) {
+      } else if (!regTypeId.test(idValue)){         
           //console.log("아이디엔 영문과 숫자만 가능합니다.",idValue);
           return error;
         }
-      }
+       return false;
     },
-    [idValue],
+    [idValue,regTypeId],
   );
-  // 아이디 중복 체크
-  const duplicate = () => {
-    const prevId = localStorage.getItem('아이디');
 
+
+  // 아이디 중복 체크
+  const duperr = true;
+  const duplicate = useCallback(() => {
+    const prevId = localStorage.getItem('아이디');
     console.log(localStorage.getItem('아이디'));
-    if (prevId === idValue) {
-      alert('중복된 아이디입니다.');
-      return false;
-    } else {
-      alert('사용할수 있는 아이디입니다.');
-      return true;
+    
+    function chxValue (){
+      const duperr = true;
+      if (prevId === idValue) {
+        alert('중복된 아이디입니다.');
+        return duperr;
+      } else {
+        alert('사용할수 있는 아이디입니다.');
+        return !duperr;
+      }
+      
     }
-  };
+    chxValue ();
+   console.log(duperr)
+  },[duperr, idValue]);
+
 
   // 비밀번호 숫자
   const countpw = pwValue.length;
@@ -254,29 +262,30 @@ const SignInsert = (onSignInsert) => {
         }
       }
     },
-    [sePwValue],
+    [pwValue, sePwValue],
   );
   const checkintro = useCallback((e) => {
     setIntroduce(e.target.value);
   }, []);
 
   const onClick = useCallback(() => {
-    
-    if (error) {
-      console.log('빨간박스의 값을 확인하세요.', error);
+ 
+    if (!idValue || errorID(()=>error) ) {
+      //console.log(errorID(()=>error))
+      alert('아이디를 다시 확인해주세요.');
       return false;
-    } else if (!idValue) {
-      alert('아이디를 입력해주세요.');
+    } else if(duperr){
+      console.log(duperr)
+      alert('아이디 중복확인을 해주세요.');
+      return false;    
+      // props 값으로 체크하장!   
+    }  else if (!pwValue||errorPw(()=>error)) {
+     // console.log(errorPw(()=>error))
+      alert('비밀번호를 다시 확인해주세요.');
       return false;
-    } else if (!duplicate) {
-      alert('아이디 중복체크를 해주세요.');
-      return false;
-    } else if (!pwValue) {
-      alert('비밀번호를 입력해주세요.');
-      return false;
-    } else if (!sePwValue) {
-      alert('비밀번호 확인을 입력해주세요.');
-      console.log('비밀번호 확인을 입력해주세요.', sePwValue);
+    } else if (!sePwValue || errorSPw(()=>error)) {
+     // console.log(errorSPw(()=>error))
+      alert('비밀번호 확인을 다시 확인해주세요.');      
       return false;
     } else if (!introduce) {
       alert('자기소개를 입력해주세요.');
@@ -295,7 +304,7 @@ const SignInsert = (onSignInsert) => {
       //location.state="/todo"
 
     }
-  }, [idValue, pwValue, sePwValue, introduce]);
+  }, [idValue, errorID, pwValue, errorPw, sePwValue, errorSPw, introduce, error, duperr]);
 
   // const {from} = location.state || {from:{pathname:"/"}}
   // if(onSignInsert) return <Redirect to = {from}/>
@@ -317,7 +326,7 @@ const SignInsert = (onSignInsert) => {
               id="userid"
               autoComplete="off"
             />
-            <Button type="button" onClick={duplicate}>
+            <Button type="button" onClick={()=>duplicate(duperr)}>
               중복체크
             </Button>
           </DivWrap>
