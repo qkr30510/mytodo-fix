@@ -5,6 +5,7 @@ import TodoList from './TodoList';
 import './css/Todo.scss';
 
 const Todo = () => {
+
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -25,9 +26,9 @@ const Todo = () => {
   const [initText, setinitText] = useState([]);
   const [btn, Setbtn] = useState('true');
   const nextId = useRef(3);
-  const [nowId, setNowId] = useState([]);
+  const [nowId, setNowId] = useState(null);
 
-  console.log(todos);
+  //console.log(todos);
 
   
 
@@ -54,7 +55,7 @@ const Todo = () => {
   const onFix = useCallback((id, text, isModify) => {
     Setbtn(isModify);
     setinitText([text]);
-    setNowId([id]);
+    setNowId(id);
     //fnInsert(id)      
   }, [todos]);
 
@@ -64,7 +65,7 @@ const Todo = () => {
     setTodos(
       // todo=>console.log("todo:",todo.id, "id:",nowId),
       todos.map((todo) =>      
-        todo.id == nowId ? {...todo, text: value} : todo,
+        todo.id === nowId ? {...todo, text: value} : todo,
       ),          
     );
     
@@ -148,7 +149,7 @@ const Todo = () => {
             <p>{ddd()}</p>
           </div>
           <p>
-            총 개수: <span>{total}</span>개
+            총 개수: <span>{total}</span>개            
           </p>
         </div>
       </div>

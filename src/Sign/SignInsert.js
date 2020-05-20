@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import {Link} from 'react-router-dom';
-
+import { Link, Redirect } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 const Box = styled.div`
@@ -54,13 +53,6 @@ const DivWrap = styled.div`
       padding: 0.5rem;
       font-size: 1.1rem;
       font-weight: bold;
-      background: #ddd;
-      color: #777;
-      &:last-child {
-        background: #777;
-        color: #eee;
-        margin-left: 1rem;
-      }
     }
   }
   p {
@@ -69,8 +61,6 @@ const DivWrap = styled.div`
     right: 5rem;
     font-size: 0.8rem;
     font-style: italic;
-
-    
   }
   label {
     display: block;
@@ -97,12 +87,27 @@ const DivWrap = styled.div`
   textarea {
     width: 100%;
   }
+  a {
+    display: block;
+    width: calc(100% - 74%);
+    background: #f2f2f2;
+    border-radius: 25px;
+    border: none;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1.1rem;
+    background: #ddd;
+    color: #777;
+    margin-right:1rem;
+  }
 `;
 
-const CountSpan = styled.span` 
+const CountSpan = styled.span`
   color: blue;
   ${(props) => props.countcolorchx !== true && countColor}
-`
+`;
 
 const CheckBoxWrap = styled.div`
   display: flex;
@@ -115,13 +120,16 @@ const CheckBoxWrap = styled.div`
 `;
 
 const Button = styled.button`
+  background: #777;
+  color: #eee;
   width: calc(100% - 74%);
-  background: #f2f2f2;
   border-radius: 25px;
-  border: none;
   padding: 0.2rem;
   margin-bottom: 0.5rem;
+  border:none;
   cursor: pointer;
+  outline:none;
+  
 `;
 
 const SignInsert = (onSignInsert) => {
@@ -190,25 +198,24 @@ const SignInsert = (onSignInsert) => {
       alert('중복된 아이디입니다.');
       return false;
     } else {
+      alert('사용할수 있는 아이디입니다.');
       return true;
     }
   };
 
+  // 비밀번호 숫자
+  const countpw = pwValue.length;
+  const count = useCallback(
+    (e) => {
+      if (countpw > 5 && countpw < 11) {
+        const countcolorchx = true;
+        return countcolorchx;
+      }
+    },
+    [countpw],
+  );
 
-  // 비밀번호 숫자 
-  const countpw = pwValue.length;  
-  const count = useCallback((e) => {
-  
-    
-    if (countpw > 5 && countpw < 11) {
-      const countcolorchx = true;      
-      return countcolorchx;
-    }
-    
-  }, [countpw]);
-
-
-// 비밀번호 유효성 체크
+  // 비밀번호 유효성 체크
   const checkPw = useCallback((e) => {
     setPwValue(e.target.value);
   }, []);
@@ -254,6 +261,7 @@ const SignInsert = (onSignInsert) => {
   }, []);
 
   const onClick = useCallback(() => {
+    
     if (error) {
       console.log('빨간박스의 값을 확인하세요.', error);
       return false;
@@ -282,116 +290,126 @@ const SignInsert = (onSignInsert) => {
       setPwValue('');
       seSetPwValue('');
       setIntroduce('');
-      onSignInsert(idValue, pwValue);
+      //onSignInsert(idValue, pwValue);
+
+      //location.state="/todo"
+
     }
   }, [idValue, pwValue, sePwValue, introduce]);
 
+  // const {from} = location.state || {from:{pathname:"/"}}
+  // if(onSignInsert) return <Redirect to = {from}/>
+
   return (
-    <Box>
-      <h3>회원가입</h3>
-      <form>
-        <DivWrap error={errorID()}>
-          <label>아이디</label>
-          <input
-            type="text"
-            name="writeId"
-            value={idValue}
-            onChange={checkid}
-            placeholder="영문과 숫자를 결합해주세요."
-            id="userid"
-            autoComplete="off"
-          />
-          <Button type="button" onClick={duplicate}>
-            중복체크
-          </Button>
-        </DivWrap>
-        <DivWrap error={errorPw()}>
-          <label>비밀번호</label>
-          <input
-            type="password"
-            name="password"
-            value={pwValue}
-            onChange={checkPw}
-            placeholder="6자리 이상 10자리 이하 영문+숫자+특수문자"
-            autoComplete="off"
-          />
-          <p>
-            현재 입력된 글자 수:<CountSpan countcolorchx={count()}>{countpw}</CountSpan>
-          </p>
-        </DivWrap>
-        <DivWrap error={errorSPw()}>
-          <label>비밀번호 확인</label>
-          <input
-            type="password"
-            name="checkpw"
-            value={sePwValue}
-            onChange={secheckPw}
-            autoComplete="off"
-          />
-        </DivWrap>
-        <DivWrap>
-          <label>성별</label>
-          <input type="radio" name="gender" value="man" defaultChecked />
-          남자
-          <input type="radio" name="gender" value="woman" />
-          여자
-        </DivWrap>
-        <DivWrap>
-          <label>생년월일</label>
-          <select name="year" id="year">
-            {year()}
-          </select>
-          <select name="month" id="month">
-            {month()}
-          </select>
-          <select name="day" id="day">
-            {day()}
-          </select>
-        </DivWrap>
-        <DivWrap>
-          <label>취미</label>
-          <CheckBoxWrap>
-            <label>
-              <input type="checkbox" name="exercise" defaultChecked />
-              운동
-            </label>
-            <label>
-              <input type="checkbox" name="game" />
-              게임
-            </label>
-            <label>
-              <input type="checkbox" name="movie" />
-              영화보기
-            </label>
-            <label>
-              <input type="checkbox" name="shopping" />
-              쇼핑
-            </label>
-            <label>
-              <input type="checkbox" name="etc" />
-              기타
-            </label>
-          </CheckBoxWrap>
-        </DivWrap>
-        <DivWrap>
-          <label>자기소개</label>
-          <textarea
-            name="introduce"
-            id=""
-            cols="30"
-            rows="10"
-            value={introduce}
-            onChange={checkintro}
-          ></textarea>
-        </DivWrap>
-        <DivWrap>
-          <Button>취소</Button>
-          <Button type="button" onClick={onClick}>
-            가입완료
-          </Button>
-        </DivWrap>
-      </form>
-    </Box>
+    <>
+      
+      <Box>
+        <h3>회원가입</h3>
+        <form>
+          <DivWrap error={errorID()}>
+            <label>아이디</label>
+            <input
+              type="text"
+              name="writeId"
+              value={idValue}
+              onChange={checkid}
+              placeholder="영문과 숫자를 결합해주세요."
+              id="userid"
+              autoComplete="off"
+            />
+            <Button type="button" onClick={duplicate}>
+              중복체크
+            </Button>
+          </DivWrap>
+          <DivWrap error={errorPw()}>
+            <label>비밀번호</label>
+            <input
+              type="text"
+              name="password"
+              value={pwValue}
+              onChange={checkPw}
+              placeholder="6자리 이상 10자리 이하 영문+숫자+특수문자"
+              autoComplete="off"
+            />
+            <p>
+              현재 입력된 글자 수:
+              <CountSpan countcolorchx={count()}>{countpw}</CountSpan>
+            </p>
+          </DivWrap>
+          <DivWrap error={errorSPw()}>
+            <label>비밀번호 확인</label>
+            <input
+              type="text"
+              name="checkpw"
+              value={sePwValue}
+              onChange={secheckPw}
+              autoComplete="off"
+            />
+          </DivWrap>
+          <DivWrap>
+            <label>성별</label>
+            <input type="radio" name="gender" value="man" defaultChecked />
+            남자
+            <input type="radio" name="gender" value="woman" />
+            여자
+          </DivWrap>
+          <DivWrap>
+            <label>생년월일</label>
+            <select name="year" id="year">
+              {year()}
+            </select>
+            <select name="month" id="month">
+              {month()}
+            </select>
+            <select name="day" id="day">
+              {day()}
+            </select>
+          </DivWrap>
+          <DivWrap>
+            <label>취미</label>
+            <CheckBoxWrap>
+              <label>
+                <input type="checkbox" name="exercise" defaultChecked />
+                운동
+              </label>
+              <label>
+                <input type="checkbox" name="game" />
+                게임
+              </label>
+              <label>
+                <input type="checkbox" name="movie" />
+                영화보기
+              </label>
+              <label>
+                <input type="checkbox" name="shopping" />
+                쇼핑
+              </label>
+              <label>
+                <input type="checkbox" name="etc" />
+                기타
+              </label>
+            </CheckBoxWrap>
+          </DivWrap>
+          <DivWrap>
+            <label>자기소개</label>
+            <textarea
+              name="introduce"
+              id=""
+              cols="30"
+              rows="10"
+              value={introduce}
+              onChange={checkintro}
+            ></textarea>
+          </DivWrap>
+          <DivWrap>
+            <Link to="/">취소</Link>
+            <Button type="button" onClick={onClick}>
+              가입완료
+            </Button>            
+          </DivWrap>         
+        </form>
+      </Box>
+    </>
   );
 };
 
