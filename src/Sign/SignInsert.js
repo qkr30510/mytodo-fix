@@ -132,11 +132,12 @@ const Button = styled.button`
   
 `;
 
-const SignInsert = (onSignInsert) => {
+const SignInsert = () => {
   const [idValue, setIdValue] = useState('');
   const [pwValue, setPwValue] = useState('');
   const [sePwValue, seSetPwValue] = useState('');
   const [introduce, setIntroduce] = useState('');
+  const [duperr,setDuperr] = useState(false);
   // const [error, setError] = useState(false);
 
   const year = () => {
@@ -190,26 +191,24 @@ const SignInsert = (onSignInsert) => {
 
 
   // 아이디 중복 체크
-  const duperr = true;
+  
   const duplicate = useCallback(() => {
     const prevId = localStorage.getItem('아이디');
     console.log(localStorage.getItem('아이디'));
-    
-    function chxValue (){
-      const duperr = true;
+   
+       
       if (prevId === idValue) {
-        alert('중복된 아이디입니다.');
-        return duperr;
+        alert('중복된 아이디입니다.');           
+        setDuperr(false);
+        console.log(setDuperr)
+        return false;        
       } else {
-        alert('사용할수 있는 아이디입니다.');
-        return !duperr;
-      }
-      
-    }
-    chxValue ();
-   console.log(duperr)
-  },[duperr, idValue]);
-
+        alert('사용할수 있는 아이디입니다.');        
+        setDuperr(true);
+        console.log(setDuperr)        
+      }  
+          
+  },[idValue]);
 
   // 비밀번호 숫자
   const countpw = pwValue.length;
@@ -274,8 +273,8 @@ const SignInsert = (onSignInsert) => {
       //console.log(errorID(()=>error))
       alert('아이디를 다시 확인해주세요.');
       return false;
-    } else if(duperr){
-      console.log(duperr)
+    } else if(!duperr){
+      //console.log(duplicate(()=>duperr))
       alert('아이디 중복확인을 해주세요.');
       return false;    
       // props 값으로 체크하장!   
@@ -326,7 +325,7 @@ const SignInsert = (onSignInsert) => {
               id="userid"
               autoComplete="off"
             />
-            <Button type="button" onClick={()=>duplicate(duperr)}>
+            <Button type="button" onClick={duplicate}>
               중복체크
             </Button>
           </DivWrap>
