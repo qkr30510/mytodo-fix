@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import {Link, Redirect } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import Routes from 'Routes';
+
 
 const LoginWrap = styled.div`
   max-width: 550px;

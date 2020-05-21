@@ -31,8 +31,6 @@ const Todo = () => {
   //console.log(todos);
 
   
-
-
   // 등록하기
   const onInsert = useCallback(
     (text, id) => {
@@ -57,7 +55,7 @@ const Todo = () => {
     setinitText([text]);
     setNowId(id);
     //fnInsert(id)      
-  }, [todos]);
+  }, []);
 
   // 수정하기 - 글 입력
   const fnInsert = (btn, value) => {

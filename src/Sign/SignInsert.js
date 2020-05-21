@@ -194,18 +194,18 @@ const SignInsert = () => {
   
   const duplicate = useCallback(() => {
     const prevId = localStorage.getItem('아이디');
-    console.log(localStorage.getItem('아이디'));
+    //console.log(localStorage.getItem('아이디'));
    
        
       if (prevId === idValue) {
         alert('중복된 아이디입니다.');           
         setDuperr(false);
-        console.log(setDuperr)
+      //  console.log(setDuperr)
         return false;        
       } else {
         alert('사용할수 있는 아이디입니다.');        
         setDuperr(true);
-        console.log(setDuperr)        
+     //   console.log(setDuperr)        
       }  
           
   },[idValue]);
@@ -266,7 +266,7 @@ const SignInsert = () => {
   const checkintro = useCallback((e) => {
     setIntroduce(e.target.value);
   }, []);
-
+  const isSign = false;
   const onClick = useCallback(() => {
  
     if (!idValue || errorID(()=>error) ) {
@@ -291,23 +291,17 @@ const SignInsert = () => {
       return false;
     } else {
       alert('환영합니다.' + idValue + '님');
-      localStorage.setItem('아이디', idValue);
+      localStorage.setItem('아이디', idValue );
       localStorage.setItem('비밀번호', pwValue);
 
       setIdValue('');
       setPwValue('');
       seSetPwValue('');
       setIntroduce('');
-      //onSignInsert(idValue, pwValue);
-
-      //location.state="/todo"
-
-    }
+      
+    }    
   }, [idValue, errorID, pwValue, errorPw, sePwValue, errorSPw, introduce, error, duperr]);
-
-  // const {from} = location.state || {from:{pathname:"/"}}
-  // if(onSignInsert) return <Redirect to = {from}/>
-
+  
   return (
     <>
       
@@ -414,7 +408,8 @@ const SignInsert = () => {
             <Button type="button" onClick={onClick}>
               가입완료
             </Button>            
-          </DivWrap>         
+          </DivWrap> 
+          {!isSign && <Redirect to="/login"/>}                  
         </form>
       </Box>
     </>
