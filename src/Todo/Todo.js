@@ -1,4 +1,5 @@
 import React, { useRef, useCallback, useState } from 'react';
+
 import TodoWrap from './TodoWrap';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
@@ -137,7 +138,7 @@ const Todo = () => {
       return 'Saturday';
     }
   };
-
+ 
   return (
     <TodoWrap>
       <div className="ToTalWrap">
@@ -164,9 +165,11 @@ const Todo = () => {
         initText={initText}
         btn={btn}
         ModifyClick={ModifyClick}
-      />
+      />      
     </TodoWrap>
+    
   );
 };
+
 
 export default Todo;

@@ -19,7 +19,6 @@ const App = () => {
         <Route path="/todo" component={Todo}></Route>
         <Route path="/notfound" component={NotFound}></Route>
       </Switch>
-      <Login/>
       </BrowserRouter>
       
     </>

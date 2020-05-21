@@ -132,7 +132,7 @@ const Login = () => {
 
  
   
-  console.log(isLogin)
+  //console.log(isLogin)
   return (
     <>    
       <LoginWrap >
