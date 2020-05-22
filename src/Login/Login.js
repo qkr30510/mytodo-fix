@@ -75,10 +75,13 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const Login = () => {
+const Login = ({match, location}) => {
+
   const [idValue, setIdValue] = useState('');
   const [pwValue, setPwValue] = useState('');
-  
+  // state
+  // const Login =localStorage.getItem("isLogin")
+  const isLogin = (localStorage.getItem("isLogin")==='true');
 
   const idOnChange = useCallback((e) => {
     setIdValue(e.target.value);
@@ -110,11 +113,12 @@ const Login = () => {
     },
     [pwValue],
   );
-  const isLogin = false;
+  // const isLogin = false;
   const onClick = () => {
     const getId = localStorage.getItem('아이디');
     const getpw = localStorage.getItem('비밀번호');
-    
+    localStorage.setItem('isLogin', true);
+    // console.log(iiisLogin)
 
     if (!idValue || !pwValue) {
       alert('입력을 해주세요');
@@ -123,17 +127,10 @@ const Login = () => {
     } else if (pwValue !== getpw) {
       alert('비밀번호가 잘못되었습니다.');
     }
-    // else{
-    //   console.log('반갑습니다.')
-    //   return !isLogin      
-    // }     
-  
+   
   };
-
- 
-  
-  //console.log(isLogin)
   return (
+    // <div>Login Page</div>
     <>    
       <LoginWrap >
         <h2>Welcome</h2>
@@ -147,10 +144,11 @@ const Login = () => {
             <Span bvalue={PWvalueCheck()}>비밀번호를 입력해주세요</Span>
           </div>
           <ButtonWrap>
-            <Link to="/sign">회원가입하러 가기</Link>
+            <Link to={{pathname:'/sign'}}>회원가입하러 가기</Link>
             <button type='button' onClick={onClick}>확인</button>             
           </ButtonWrap>
-          {!isLogin && <Redirect to="/todo"/>}
+          {/* {isLogin && <Redirect to={{pathname:'/todo', state:{isLogin : true}}}/>} */}
+          {isLogin &&<Redirect to="/todo"/>}
         </Form>
       </LoginWrap>
     </>

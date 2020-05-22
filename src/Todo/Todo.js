@@ -1,11 +1,19 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 
 import TodoWrap from './TodoWrap';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import './css/Todo.scss';
 
-const Todo = () => {
+const Todo = (props) => {
+
+  // useEffect(() => {
+  //   if (props.location.state === undefined) {
+  //     props.history.push('/');
+  //   }
+  // });
+  
+
 
   const [todos, setTodos] = useState([
     {
@@ -19,7 +27,7 @@ const Todo = () => {
       text: `할 일 2`,
       checked: false,
       isModify: false,
-    },    
+    },
   ]);
   const total = todos.length;
   //console.log(total)
@@ -31,7 +39,6 @@ const Todo = () => {
 
   //console.log(todos);
 
-  
   // 등록하기
   const onInsert = useCallback(
     (text, id) => {
@@ -55,20 +62,19 @@ const Todo = () => {
     Setbtn(isModify);
     setinitText([text]);
     setNowId(id);
-    //fnInsert(id)      
+    //fnInsert(id)
   }, []);
 
   // 수정하기 - 글 입력
   const fnInsert = (btn, value) => {
-    //console.log("idss",id)      
+    //console.log("idss",id)
     setTodos(
       // todo=>console.log("todo:",todo.id, "id:",nowId),
-      todos.map((todo) =>      
-        todo.id === nowId ? {...todo, text: value} : todo,
-      ),          
+      todos.map((todo) =>
+        todo.id === nowId ? { ...todo, text: value } : todo,
+      ),
     );
-    
-  }
+  };
 
   // 삭제하기
 
@@ -90,7 +96,6 @@ const Todo = () => {
       setTodos(
         todos.map((todo) =>
           todo.id === id ? { ...todo, checked: !todo.checked } : todo,
-
         ),
       );
     },
@@ -99,18 +104,18 @@ const Todo = () => {
 
   // 벨류 체크 및 버튼 변경
   const ModifyClick = (btn, value, onInsert, setValue) => {
-    console.log(btn)
+    console.log(btn);
     //Setbtn(!btn);
     if (!value) {
       alert('값을 입력해주세요');
       Setbtn(btn);
       return false;
     } else {
-      Setbtn(!btn);      
+      Setbtn(!btn);
     }
     //todos.id === id ? fnInsert(id, initText, value, setValue) : onInsert(value, id);
-    console.log('mo', value)
-    fnInsert( btn, value);    
+    console.log('mo', value);
+    fnInsert(btn, value);
     setinitText('');
   };
 
@@ -138,7 +143,7 @@ const Todo = () => {
       return 'Saturday';
     }
   };
- 
+
   return (
     <TodoWrap>
       <div className="ToTalWrap">
@@ -148,7 +153,7 @@ const Todo = () => {
             <p>{ddd()}</p>
           </div>
           <p>
-            총 개수: <span>{total}</span>개            
+            총 개수: <span>{total}</span>개
           </p>
         </div>
       </div>
@@ -165,11 +170,9 @@ const Todo = () => {
         initText={initText}
         btn={btn}
         ModifyClick={ModifyClick}
-      />      
+      />
     </TodoWrap>
-    
   );
 };
-
 
 export default Todo;

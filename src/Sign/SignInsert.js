@@ -293,6 +293,8 @@ const SignInsert = () => {
       alert('환영합니다.' + idValue + '님');
       localStorage.setItem('아이디', idValue );
       localStorage.setItem('비밀번호', pwValue);
+      localStorage.setItem('isLogin', false);
+
 
       setIdValue('');
       setPwValue('');
@@ -404,12 +406,12 @@ const SignInsert = () => {
             ></textarea>
           </DivWrap>
           <DivWrap>
-            <Link to="/">취소</Link>
+            <Link to={{pathname:'/', state:{isSign : false}}}>취소</Link>
             <Button type="button" onClick={onClick}>
               가입완료
             </Button>            
           </DivWrap> 
-          {!isSign && <Redirect to="/login"/>}                  
+          {/* {!isSign && <Redirect to={{pathname:'/login', state:{isSing:true}}}/>}                   */}
         </form>
       </Box>
     </>
