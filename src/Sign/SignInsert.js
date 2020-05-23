@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState, useCallback,useContext } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import {store} from '../store.js'
 
 const Box = styled.div`
 /* props로 넣어준 값을 직접 전달해줄 수 있습니다. */
@@ -132,13 +133,14 @@ const Button = styled.button`
   
 `;
 
-const SignInsert = () => {
+const SignInsert = ({history}) => {
   const [idValue, setIdValue] = useState('');
   const [pwValue, setPwValue] = useState('');
   const [sePwValue, seSetPwValue] = useState('');
   const [introduce, setIntroduce] = useState('');
   const [duperr,setDuperr] = useState(false);
-  // const [error, setError] = useState(false);
+  const globalState = useContext(store);
+  const {dispatch} = globalState;
 
   const year = () => {
     const y = [];
@@ -266,7 +268,7 @@ const SignInsert = () => {
   const checkintro = useCallback((e) => {
     setIntroduce(e.target.value);
   }, []);
-  const isSign = false;
+
   const onClick = useCallback(() => {
  
     if (!idValue || errorID(()=>error) ) {
@@ -293,7 +295,8 @@ const SignInsert = () => {
       alert('환영합니다.' + idValue + '님');
       localStorage.setItem('아이디', idValue );
       localStorage.setItem('비밀번호', pwValue);
-      localStorage.setItem('isLogin', false);
+      dispatch({type:'LOGIN'})
+      history.push('/todo')
 
 
       setIdValue('');
@@ -406,7 +409,7 @@ const SignInsert = () => {
             ></textarea>
           </DivWrap>
           <DivWrap>
-            <Link to={{pathname:'/', state:{isSign : false}}}>취소</Link>
+            <Link to='/'>취소</Link>
             <Button type="button" onClick={onClick}>
               가입완료
             </Button>            
@@ -418,4 +421,4 @@ const SignInsert = () => {
   );
 };
 
-export default SignInsert;
+export default withRouter(SignInsert);

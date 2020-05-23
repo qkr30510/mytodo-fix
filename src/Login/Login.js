@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
-import {Link, Redirect } from 'react-router-dom';
+import React, { useState, useCallback, useContext } from 'react';
+import {Link} from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import {store} from '../store.js'
 
 
 const LoginWrap = styled.div`
@@ -75,13 +76,18 @@ const ButtonWrap = styled.div`
   }
 `;
 
-const Login = ({match, location}) => {
-
+const Login = ({history}) => {
+  const globalState = useContext(store);
+  const {dispatch} = globalState;
+ 
   const [idValue, setIdValue] = useState('');
   const [pwValue, setPwValue] = useState('');
-  // state
-  // const Login =localStorage.getItem("isLogin")
-  const isLogin = (localStorage.getItem("isLogin")==='true');
+
+   const getId = localStorage.getItem('아이디');
+   const getpw = localStorage.getItem('비밀번호');
+
+
+  
 
   const idOnChange = useCallback((e) => {
     setIdValue(e.target.value);
@@ -113,22 +119,22 @@ const Login = ({match, location}) => {
     },
     [pwValue],
   );
-  // const isLogin = false;
-  const onClick = () => {
-    const getId = localStorage.getItem('아이디');
-    const getpw = localStorage.getItem('비밀번호');
-    localStorage.setItem('isLogin', true);
-    // console.log(iiisLogin)
+
+  
+  const onClick = () => {    
 
     if (!idValue || !pwValue) {
       alert('입력을 해주세요');
-    } else if (idValue !== getId) {
-      alert('아이디가 잘못되었습니다.');
-    } else if (pwValue !== getpw) {
-      alert('비밀번호가 잘못되었습니다.');
+    } else if (idValue !== getId || pwValue !== getpw) {
+      alert('아이디 또는 비밀번호가 잘못되었습니다.');
+    } else if (idValue === getId || pwValue === getpw) {
+      alert(getId + '님 환영합니다');
+      // return <Redirect to={{pathname:'/todo', state:{isLogin : true}}}/>      
+      dispatch({type:'LOGIN'})
+      history.push('/todo')
     }
-   
   };
+
   return (
     // <div>Login Page</div>
     <>    
@@ -147,8 +153,8 @@ const Login = ({match, location}) => {
             <Link to={{pathname:'/sign'}}>회원가입하러 가기</Link>
             <button type='button' onClick={onClick}>확인</button>             
           </ButtonWrap>
-          {/* {isLogin && <Redirect to={{pathname:'/todo', state:{isLogin : true}}}/>} */}
-          {isLogin &&<Redirect to="/todo"/>}
+          {/* {!isLogin && <Redirect to={{pathname:'/todo', state:{isLogin : true}}}/>} */}
+          {/* {isLogin &&<Redirect to="/todo"/>} */}
         </Form>
       </LoginWrap>
     </>

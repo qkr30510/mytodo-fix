@@ -1,11 +1,14 @@
-import React, { useRef, useCallback, useState, useEffect } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 
 import TodoWrap from './TodoWrap';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import './css/Todo.scss';
 
+
 const Todo = (props) => {
+
+
 
   // useEffect(() => {
   //   if (props.location.state === undefined) {
@@ -144,7 +147,13 @@ const Todo = (props) => {
     }
   };
 
+
+
+
+
   return (
+
+
     <TodoWrap>
       <div className="ToTalWrap">
         <div className="ToTal" id="Total">

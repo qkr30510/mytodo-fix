@@ -1,29 +1,26 @@
-import React from "react";
+import React,{useContext} from "react";
+import {withRouter } from 'react-router-dom';
 import './css/TodoWrap.scss';
-import { Link,Redirect } from "react-router-dom";
+import {store,User} from '../store.js'
 
-const TodoWrap = ({ children}) => {
-    const getId = localStorage.getItem('아이디');
-    const isLogin = (localStorage.getItem("isLogin")==='true');
-    
-    const handleClick=()=>{
-    localStorage.setItem('isLogin',false); 
-}
+const TodoWrap = ({ children, history}) => {
+    const globalState = useContext(store,User);
+    const {dispatch} = globalState;
+
+    const Logout = () => {
+        
+        dispatch({type:'LOGOUT'}) //LOGOUT  
+        history.push('/')      
+     
+    }
+    console.log(User)
 
     return (           
         <div className="TodoTemplate">            
-            {/* <Link to={{pathname:'/login', state:{isLogin : false}}}>로그아웃</Link>   
-                      */}
-                                {!isLogin &&<Redirect to="/login"/>}
-
             <div>
-            <button type='button' onClick={handleClick}  >로그아웃</button>    
-            </div>
-            
-                {/* <Link to="/"> */}
-                    
-                    {/* </Link> */}
-            <div className="app-title">"{getId}"이의 Todo</div>
+            <button type='button' onClick={Logout}>로그아웃</button>  
+            </div>            
+            <div className="app-title">{User.id}이의 Todo</div>
             <div className="content">{children}</div>            
         </div>
         
@@ -31,4 +28,4 @@ const TodoWrap = ({ children}) => {
 };
 
 
-export default TodoWrap;
+export default withRouter (TodoWrap);
