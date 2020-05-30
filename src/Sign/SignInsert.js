@@ -1,7 +1,7 @@
-import React, { useState, useCallback,useContext } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import {store} from '../store.js'
+
 
 const Box = styled.div`
 /* props로 넣어준 값을 직접 전달해줄 수 있습니다. */
@@ -20,11 +20,12 @@ font-size:1.8rem;
 color:#333;
 
 }
-form{
-  width:100%;
-}
 
 `;
+
+const Form = styled.form`
+  width:100%;
+`
 
 const RedId = css`
   border: 3px solid #f66969;
@@ -87,6 +88,7 @@ const DivWrap = styled.div`
   }
   textarea {
     width: 100%;
+    padding:0.5rem;
   }
   a {
     display: block;
@@ -139,13 +141,12 @@ const SignInsert = ({history}) => {
   const [sePwValue, seSetPwValue] = useState('');
   const [introduce, setIntroduce] = useState('');
   const [duperr,setDuperr] = useState(false);
-  const globalState = useContext(store);
-  const {dispatch} = globalState;
-
+  const [isSign, setIsSign] = useState(false);
+  
   const year = () => {
     const y = [];
     for (let i = 1920; i < 2020; i++) {
-      y.push(<option>{i}</option>);
+      y.push(<option key={y}>{i}</option>);
     }
     return y;
   };
@@ -153,7 +154,7 @@ const SignInsert = ({history}) => {
   const month = () => {
     const m = [];
     for (let i = 1; i < 13; i++) {
-      m.push(<option>{i}</option>);
+      m.push(<option key={m}>{i}</option>);
     }
     return m;
   };
@@ -161,7 +162,7 @@ const SignInsert = ({history}) => {
   const day = () => {
     const d = [];
     for (let i = 1; i < 32; i++) {
-      d.push(<option>{i}</option>);
+      d.push(<option key={d}>{i}</option>);
     }
     return d;
   };
@@ -295,24 +296,19 @@ const SignInsert = ({history}) => {
       alert('환영합니다.' + idValue + '님');
       localStorage.setItem('아이디', idValue );
       localStorage.setItem('비밀번호', pwValue);
-      dispatch({type:'LOGIN'})
-      history.push('/todo')
 
 
-      setIdValue('');
-      setPwValue('');
-      seSetPwValue('');
-      setIntroduce('');
+      setIsSign(true);
       
     }    
-  }, [idValue, errorID, pwValue, errorPw, sePwValue, errorSPw, introduce, error, duperr]);
+  }, [idValue, errorID, duperr, pwValue, errorPw, sePwValue, errorSPw, introduce, error]);
   
   return (
     <>
       
       <Box>
         <h3>회원가입</h3>
-        <form>
+        <Form>
           <DivWrap error={errorID()}>
             <label>아이디</label>
             <input
@@ -331,7 +327,7 @@ const SignInsert = ({history}) => {
           <DivWrap error={errorPw()}>
             <label>비밀번호</label>
             <input
-              type="text"
+              type="password"
               name="password"
               value={pwValue}
               onChange={checkPw}
@@ -346,7 +342,7 @@ const SignInsert = ({history}) => {
           <DivWrap error={errorSPw()}>
             <label>비밀번호 확인</label>
             <input
-              type="text"
+              type="password"
               name="checkpw"
               value={sePwValue}
               onChange={secheckPw}
@@ -414,11 +410,11 @@ const SignInsert = ({history}) => {
               가입완료
             </Button>            
           </DivWrap> 
-          {/* {!isSign && <Redirect to={{pathname:'/login', state:{isSing:true}}}/>}                   */}
-        </form>
+          {isSign && <Redirect to={{pathname:'/todo', state:{id:idValue, pw:pwValue}}}/>}                  
+        </Form>
       </Box>
     </>
   );
 };
 
-export default withRouter(SignInsert);
+export default SignInsert

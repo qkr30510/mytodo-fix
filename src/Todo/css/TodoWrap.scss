@@ -1,34 +1,37 @@
-.TodoTemplate{
-    width: 512px;
-    margin: 0.5rem auto 0 auto;
-    border-radius:4px;
-    overflow:hidden;
-    
-    button{
-        float: right;
-        border:1px solid #222;
-        background: gray;
-        text-decoration: none;
-        padding:0.3rem;
-        color:#fff;
+.TodoTemplate {
+  width: 512px;
+  margin: 0.5rem auto 0 auto;
+  border-radius: 4px;
+  overflow: hidden;
 
+  button {
+    float: right;
+    border: 1px solid #222;
+    background: gray;
+    text-decoration: none;
+    padding: 0.3rem;
+    color: #fff;
+  }
+}
+
+.app-title {
+  background: #cf201b;
+  color: #fff;
+  height: 4rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  p {
+    span {
+      font-weight: bold;
+      font-size: 1.7rem;
     }
+  }
 }
 
-
-.app-title{
-    background: #cf201b;
-    color:#fff;
-    height: 4rem;
-    font-size:1.5rem;
-    font-weight:bold;
-    text-transform: uppercase;
-    display:flex;
-    align-items:center;
-    justify-content: center;    
-    width:100%;
-}
-
-.content{
-    background:#fff;
+.content {
+  background: #fff;
 }
