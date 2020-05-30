@@ -1,17 +1,25 @@
-.TodoTemplate {
-  width: 512px;
-  margin: 0.5rem auto 0 auto;
-  border-radius: 4px;
-  overflow: hidden;
-
-  button {
-    float: right;
-    border: 1px solid #222;
-    background: gray;
-    text-decoration: none;
-    padding: 0.3rem;
-    color: #fff;
+.TodoWrap{
+  width: 100%;
+  height: 100%;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .TodoTemplate {
+    width: 512px;
+    margin: 0.5rem auto 0 auto;
+    border-radius: 4px;
+    overflow: hidden;
+  
+    button {
+      float: right;
+      border: 1px solid #222;
+      background: gray;
+      text-decoration: none;
+      padding: 0.3rem;
+      color: #fff;
+    }
   }
+  
 }
 
 .app-title {

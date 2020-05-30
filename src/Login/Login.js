@@ -2,9 +2,15 @@ import React, { useState, useCallback } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+const Wrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+`;
 const LoginWrap = styled.div`
   width: 535px;
-  height: 650px;
   margin: auto;
   box-sizing: border-box;
 
@@ -112,7 +118,7 @@ const Login = ({ history }) => {
     }
   };
 
-  // 마우스 이벤트 
+  // 마우스 이벤트
   function handleClick() {
     IdInput.current.focus();
     setMoveid(true);
@@ -123,7 +129,7 @@ const Login = ({ history }) => {
     setMovepw(true);
   }
 
-  const move= useCallback(
+  const move = useCallback(
     (e) => {
       const moveplceholder = false;
       if (moveid) {
@@ -133,20 +139,19 @@ const Login = ({ history }) => {
     [moveid],
   );
 
-  const movePw= useCallback(
+  const movePw = useCallback(
     (e) => {
       const moveplceholder = false;
- 
+
       if (movepw) {
         return !moveplceholder;
-      }      
+      }
     },
     [movepw],
   );
 
-
   return (
-    <>
+    <Wrap>
       <LoginWrap>
         <h2>Welcome</h2>
         <Form>
@@ -186,7 +191,7 @@ const Login = ({ history }) => {
           )}
         </Form>
       </LoginWrap>
-    </>
+    </Wrap>
   );
 };
 
