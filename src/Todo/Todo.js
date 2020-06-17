@@ -1,16 +1,13 @@
 import React, { useRef, useCallback, useState, useEffect } from 'react';
+import { Redirect } from "react-router-dom"; //import Redirect first
 import TodoWrap from './TodoWrap';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import './css/Todo.scss';
 
 const Todo = (props) => {
-  
-  useEffect(() => {
-    if (props.location.state === undefined) {
-      props.history.push('/');
-    }
-  });
+  const [redirect, setRedirect] = useState(false);
+
 
   const [todos, setTodos] = useState([
     {
@@ -36,6 +33,15 @@ const Todo = (props) => {
 
   //console.log(todos);
 
+  useEffect(() => {
+    if (props.location.state === undefined) {
+      setRedirect(true);
+      // 수정
+    }
+  }, [props.location.state]);
+
+
+  
   // 등록하기
   const onInsert = useCallback(
     (text, id) => {
@@ -140,36 +146,40 @@ const Todo = (props) => {
       return 'Saturday';
     }
   };
-
-  return (
-    <TodoWrap>
-      <div className="ToTalWrap">
-        <div className="ToTal" id="Total">
-          <div className="date">
-            {y}/{m}/{d}
-            <p>{ddd()}</p>
+  if(redirect){
+    // return props.history.push('/');
+    return <Redirect to="/" />
+  }else{
+    return (
+      <TodoWrap>
+        <div className="ToTalWrap">
+          <div className="ToTal" id="Total">
+            <div className="date">
+              {y}/{m}/{d}
+              <p>{ddd()}</p>
+            </div>
+            <p>
+              총 개수: <span>{total}</span>개
+            </p>
           </div>
-          <p>
-            총 개수: <span>{total}</span>개
-          </p>
         </div>
-      </div>
-      <TodoList
-        todos={todos}
-        fixtodo={fixtodo}
-        onRemove={onRemove}
-        onToggle={onToggle}
-        onFix={onFix}
-        btn={btn}
-      />
-      <TodoInsert
-        onInsert={onInsert}
-        initText={initText}
-        btn={btn}
-        ModifyClick={ModifyClick}
-      />
-    </TodoWrap>
-  );
+        <TodoList
+          todos={todos}
+          fixtodo={fixtodo}
+          onRemove={onRemove}
+          onToggle={onToggle}
+          onFix={onFix}
+          btn={btn}
+        />
+        <TodoInsert
+          onInsert={onInsert}
+          initText={initText}
+          btn={btn}
+          ModifyClick={ModifyClick}
+        />
+      </TodoWrap>
+    );
+  }
 };
 
 export default Todo;
