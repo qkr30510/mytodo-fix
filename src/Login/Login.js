@@ -11,7 +11,6 @@ const Wrap = styled.div`
 `;
 const LoginWrap = styled.div`
   width: 535px;
-  margin: auto;
   box-sizing: border-box;
 
   h2 {
