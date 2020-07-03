@@ -3,16 +3,16 @@ import { Link, Redirect } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 const Wrap = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  display:table;
+  margin:auto;
+  width:535px;
+  height:100%;
 `;
 const LoginWrap = styled.div`
-  width: 535px;
+  
   box-sizing: border-box;
-
+  display:table-cell;
+  vertical-align: middle;
   h2 {
     margin: 2rem 1rem;
   }
@@ -34,6 +34,9 @@ const Form = styled.form`
   div {
     position: relative;
     margin-bottom: 3rem;
+    &:last-child{
+      margin-bottom: 0;
+    }
   }
 
   input {
